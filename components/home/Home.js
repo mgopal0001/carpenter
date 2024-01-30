@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { styles } from "./styles";
 import WorkData from "../workData/WorkData";
+import { useNavigation } from "@react-navigation/native";
+
 
 export default function Home() {
 	const [selectedButton, setSelectedButton] = useState("InProgress");
@@ -10,6 +12,8 @@ export default function Home() {
 	const handleButtonClick = (buttonName) => {
 		setSelectedButton(buttonName);
 	};
+
+  const navigation = useNavigation();
 
 	return (
 		<View style={styles.container}>
@@ -89,7 +93,7 @@ export default function Home() {
 				</View>
 			</View>
 			<View style={{ height: "90%", marginTop: 10 }}>
-				<WorkData></WorkData>
+				<WorkData navigation={navigation}></WorkData>
 			</View>
 		</View>
 	);

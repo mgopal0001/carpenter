@@ -1,18 +1,16 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import {
+	View,
+	Text,
+	FlatList,
+	StyleSheet,
+	TouchableOpacity,
+} from "react-native";
 import { users } from "../../constants/users"; // Assuming you have a users array
 
-export default function WorkData() {
+export default function WorkData({navigation}) {
 	const renderItem = ({ item }) => (
-		<TouchableOpacity
-			onPress={() => navigation.navigate("Details", { item })}
-			style={{
-				padding: 16,
-				margin: 8,
-				backgroundColor: "lightgray",
-				borderRadius: 8,
-			}}
-		>
+		<TouchableOpacity onPress={() => navigation.navigate("Details", { item })}>
 			<View style={styles.card}>
 				<Text style={styles.userName}>{item.name}</Text>
 				<Text style={styles.userAddress}>{item.address}</Text>

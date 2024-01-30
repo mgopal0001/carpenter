@@ -7,6 +7,9 @@ import Login from "./components/login/Login";
 import Home from "./components/home/Home";
 import LogoutScreen from "./components/logout/LogoutScreen"; // Import the new component
 import UserProfile from "./components/userProfile/UserProfile";
+import WorkDetails from "./components/workDetails/WorkDetails";
+import AddWork from "./components/addWork/AddWork";
+import ImagePreview from "./components/addWork/imagePreview/ImagePreview";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -43,6 +46,21 @@ const AppNavigator = () => {
 				name="Home"
 				component={HomeDrawer}
 				options={{ headerShown: false }}
+			/>
+			<Stack.Screen
+				name="Details"
+				component={WorkDetails}
+				options={{ headerShown: true }}
+			/>
+			<Stack.Screen
+				name="Add Work"
+				component={AddWork}
+				options={{ headerShown: true }}
+			/>
+			<Stack.Screen
+				name="Preview"
+				component={ImagePreview}
+				options={{ headerShown: true }}
 			/>
 		</Stack.Navigator>
 	);
