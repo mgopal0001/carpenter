@@ -32,10 +32,18 @@ export default function Login({ navigation }) {
 			colors={["rgba(255, 7, 79, 0.97)", "#1E1215"]}
 			style={styles.linearGradient}
 		>
-			<Image
-				source={Logo}
-				style={{ height: 200, width: 250, marginLeft: "19%", marginTop: "20%" }}
-			></Image>
+			
+				<Image
+					source={Logo}
+					style={{
+						height: 200,
+						width: "100%",
+						marginLeft: "auto",
+						marginTop: "auto",
+						marginBottom:100
+					}}
+				></Image>
+
 			<View style={styles.container}>
 				<View style={styles.loginContainer}>
 					<Text style={{ textAlign: "center", fontSize: 28 }}>LOGIN</Text>

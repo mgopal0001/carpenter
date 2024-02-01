@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	logo: {
-		width: 200, // Adjust the width according to your design
+		width: '100%', // Adjust the width according to your design
 		height: 200, // Adjust the height according to your design
 		borderWidth: 5,
 	},
