@@ -8,48 +8,42 @@ import {
 } from "react-native";
 import { _getOrders } from "../../network/order";
 
-export default function WorkData({ navigation, order }) {
+export default function WorkData({ navigation, orderType }) {
   const [orders, setOrders] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
   const [pageSize, setPageSize] = useState(10);
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate("Details", { item })}>
-      <View style={styles.card}>
-        <Text style={styles.userName}>{item.customerName}</Text>
-        <Text style={styles.userAddress}>{item.address}</Text>
-        <Text style={styles.userPhone}>{item.phone}</Text>
-        <Text style={styles.userStatus}>{item.status}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+  const renderItem = ({ item: order }) => {
+    return (
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Details", { order })}
+      >
+        <View style={styles.card}>
+          <Text style={styles.userName}>{order?.customerName}</Text>
+          <Text style={styles.userAddress}>{order?.address}</Text>
+          <Text style={styles.userPhone}>{order?.phone}</Text>
+          <Text style={styles.userStatus}>{order?.status}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   useEffect(() => {
-    _getOrders(pageNumber, pageSize, order)
+    _getOrders(pageNumber, pageSize, orderType)
       .then((res) => {
         setOrders(res.data.data.orders);
       })
       .catch((err) => {
         console.log({ err });
       });
-  }, []);
-
-  useEffect(() => {
-    _getOrders(pageNumber, pageSize, order)
-      .then((res) => {
-        setOrders(res.data.data.orders);
-      })
-      .catch((err) => {
-        console.log({ err });
-      });
-  }, [order]);
+  }, [orderType]);
 
   return (
     <FlatList
       data={orders}
       renderItem={renderItem}
       showsVerticalScrollIndicator={false}
-      keyExtractor={(item) => item.orderId} // Use a unique key for each item
+      keyExtractor={(order) => order.orderId} // Use a unique key for each item
     />
   );
 }

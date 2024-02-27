@@ -34,10 +34,16 @@ export const _employeeLogin = async (payload) => {
   try {
     const response = await axios.post(
       `${BASE_URL}/auth/employee/login`,
-      payload
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
     );
-    return response;
+    return response.data;
   } catch (error) {
-    console.log({ error });
+    console.log(JSON.stringify(error));
   }
 };

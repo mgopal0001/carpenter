@@ -21,7 +21,7 @@ export default function Login({ navigation }) {
 
     _employeeLogin({ email, password })
       .then((res) => {
-        const token = res.data.data.token;
+        const token = res.data.token;
         if (token) {
           _saveToken(token).then(() => {
             navigation.navigate("Home");

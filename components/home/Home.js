@@ -108,7 +108,7 @@ export default function Home() {
         </View>
       </View>
       <View style={{ height: "90%", marginTop: 10 }}>
-        <WorkData navigation={navigation} order={selectedOrderType}/>
+        <WorkData navigation={navigation} orderType={selectedOrderType}/>
       </View>
     </View>
   );

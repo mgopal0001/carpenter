@@ -17,3 +17,19 @@ export const _getOrders = async (pageNumber, pageSize, order) => {
     console.log({ error });
   }
 };
+
+export const _saveOrder = async (payload) => {
+  const token = await _getToken();
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/order/add-order`, payload,
+      { headers: headers }
+    );
+    return response;
+  } catch (error) {
+    console.log({ error });
+  }
+};
