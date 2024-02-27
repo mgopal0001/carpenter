@@ -1,8 +1,16 @@
+import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { _getItemByOrderId } from "../../network/item";
+import { _updateOrder } from "../../network/order";
 
 export default function WorkDetails({ route }) {
   const { order } = route.params;
@@ -13,6 +21,7 @@ export default function WorkDetails({ route }) {
     if (order) {
       _getItemByOrderId(order.orderId)
         .then((res) => {
+          console.log({ res });
           setItems(res.data);
         })
         .catch((err) => {
@@ -20,6 +29,39 @@ export default function WorkDetails({ route }) {
         });
     }
   }, [order]);
+
+  const STATUS_VALUES = [
+    {
+      key: "IN_PROGRESS",
+      value: "In Progress",
+    },
+    {
+      key: "PENDING",
+      value: "Pending",
+    },
+    {
+      key: "COMPLETED",
+      value: "Completed",
+    },
+    {
+      key: "CANCELED",
+      value: "Canceled",
+    },
+  ];
+
+  const handleUnitChange = (input) => {
+    console.log({ input });
+    const payload = {
+      status: input,
+    };
+    _updateOrder(payload, order.orderId)
+      .then((res) => {
+        navigation.navigate("Home");
+      })
+      .catch((err) => {
+        console.log({ err });
+      });
+  };
 
   const renderItem = ({ item }) => {
     return (
@@ -32,11 +74,23 @@ export default function WorkDetails({ route }) {
           ></Image>
         </View>
         <View style={styles.itemDetails}>
-          <Text style={{ fontSize: 20, color: "red" }}>{item?.itemName}</Text>
+          <Text style={{ fontSize: 20, color: "#E30F4D" }}>
+            {item?.itemName}
+          </Text>
           {item.properties.map((property) => (
-            <View style={{ display: "flex", justifyContent: "space-between" }}>
-              <Text style={styles.userName}>{property?.key}:</Text>
-              <Text style={styles.userName}>{property?.value}</Text>
+            <View
+              key={property.key}
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text style={{ fontSize: 15, color: "#535353" }}>
+                {property?.key}:
+              </Text>
+              <Text style={{ fontSize: 15, color: "#535353" }}>
+                {property?.value}
+              </Text>
             </View>
           ))}
         </View>
@@ -48,6 +102,24 @@ export default function WorkDetails({ route }) {
     // <ScrollView horizontal={false}>
     <View style={styles.container}>
       <View style={styles.header}>
+        {/* <Text style={styles.badge}>{order.status}</Text> */}
+        <View style={styles.selectContainer}>
+          <Picker
+            selectedValue={order.status}
+            onValueChange={(input) => handleUnitChange(input)}
+            style={styles.picker}
+          >
+            {STATUS_VALUES.map((status) => (
+              <Picker.Item
+                key={status.key}
+                label={status.value}
+                value={status.key}
+              />
+            ))}
+          </Picker>
+        </View>
+      </View>
+      <View style={styles.orderDetails}>
         <Text
           style={{
             textAlign: "left",
@@ -55,23 +127,15 @@ export default function WorkDetails({ route }) {
             fontSize: 20,
           }}
         >
-          {`Order Details: `}
+          {`Customer Name: ${order.customerName}`}
         </Text>
-        <Text style={styles.badge}>{order.status}</Text>
-      </View>
-      <View style={styles.orderDetails}>
         <Text
-          style={{
-            textAlign: "left",
-            textTransform: "capitalize",
-            fontSize: 30,
-          }}
-        >
-          {order.customerName}
-        </Text>
-        <Text style={{ textAlign: "left" }}>{order.phone}</Text>
-        <Text style={{ textAlign: "left" }}>{order.address}</Text>
-        <Text style={{ textAlign: "left" }}>{order.visitTime}</Text>
+          style={{ textAlign: "left" }}
+        >{`Mobile Number: ${order.phone}`}</Text>
+        <Text style={{ textAlign: "left" }}>{`Address: ${order.address}`}</Text>
+        <Text
+          style={{ textAlign: "left" }}
+        >{`Visit Time: ${order.visitTime}`}</Text>
       </View>
 
       <FlatList
@@ -79,7 +143,6 @@ export default function WorkDetails({ route }) {
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.itemId} // Use a unique key for each item
-
       />
       <TouchableOpacity
         onPress={() => {
@@ -123,38 +186,51 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   orderDetails: {
-    backgroundColor: "gray",
     borderRadius: 10,
     padding: 10,
     width: "100%",
+    marginTop: 10,
+    borderColor: "#FF074F",
+    borderWidth: 3,
   },
   addWorkButton: {
     backgroundColor: "#E30F4D",
     padding: 10,
     borderRadius: 10,
   },
-  imageContainer:{
-    width:"50%",
-    height:"100%",
+  imageContainer: {
+    width: "50%",
+    height: "100%",
   },
   previewImage: {
     width: "100%",
     height: "100%",
-    
   },
   itemDetails: {
     width: "50%",
+    padding: 20,
   },
   cardItem: {
-    
-    marginTop:10,
-    backgroundColor: "gray",
+    marginTop: 10,
     borderRadius: 20,
-    // height: "100%",
     padding: 20,
     justifyContent: "space-between", // Add this line
     flexDirection: "row",
-    gap:20
-    
+    height: 200,
+    gap: 20,
+    borderColor: "#FF074F",
+    borderWidth: 3,
+  },
+  picker: {
+    height: 40,
+    width: 300,
+    color: "white",
+    fontWeight: "bold",
+  },
+  selectContainer: {
+    borderRadius: 5,
+    backgroundColor: "#FF074F",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

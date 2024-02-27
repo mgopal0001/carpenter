@@ -1,4 +1,5 @@
 import { Picker } from "@react-native-picker/picker";
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
   Image,
@@ -13,10 +14,8 @@ import { _saveOrderItem } from "../../../network/item";
 export default function ImagePreview({ route }) {
   const { photo, orderId } = route.params;
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedHeightDimension, setSelectedHeightDimension] = useState(null);
-  const [selectedWidthDimension, setSelectedWidthDimension] = useState(null);
-  const [selectedOtherDimension, setSelectedOtherDimension] = useState(null);
   const [showDimensionPicker, setShowDimensionPicker] = useState(false);
+  const navigation = useNavigation();
 
   const DIMENSION_UNITS = [
     {
@@ -107,7 +106,7 @@ export default function ImagePreview({ route }) {
     const orderDetails = getInputFieldsOfAddedItem();
     _saveOrderItem(orderDetails, orderId)
       .then((res) => {
-        console.log({ res });
+        navigation.navigate("Home");
       })
       .catch((err) => {
         console.log({ err });

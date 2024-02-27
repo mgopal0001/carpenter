@@ -19,10 +19,13 @@ export default function WorkData({ navigation, orderType }) {
         onPress={() => navigation.navigate("Details", { order })}
       >
         <View style={styles.card}>
-          <Text style={styles.userName}>{order?.customerName}</Text>
-          <Text style={styles.userAddress}>{order?.address}</Text>
-          <Text style={styles.userPhone}>{order?.phone}</Text>
-          <Text style={styles.userStatus}>{order?.status}</Text>
+          <Text
+            style={styles.heading}
+          >{`Customer Name: ${order?.customerName}`}</Text>
+          <Text style={styles.subHeading}>{`Address: ${order?.address}`}</Text>
+          <Text
+            style={styles.subHeading}
+          >{`Mobile Number: ${order?.phone}`}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -51,28 +54,20 @@ export default function WorkData({ navigation, orderType }) {
 const styles = StyleSheet.create({
   card: {
     padding: 10,
-    height: 150, // Adjust the height based on your design
     width: "100%",
     marginLeft: "auto",
     marginRight: "auto",
     borderRadius: 18,
     marginBottom: 10,
     marginTop: 10,
-    backgroundColor: "rgba(247, 230, 116, 0.74)",
+    borderColor: "#FF074F",
+    borderWidth: 3,
   },
-  userName: {
+  heading: {
     fontSize: 18,
     textTransform: "capitalize",
   },
-  userAddress: {
-    fontSize: 16,
-    color: "gray",
-  },
-  userPhone: {
-    fontSize: 16,
-    color: "gray",
-  },
-  userStatus: {
+  subHeading: {
     fontSize: 16,
     color: "gray",
   },

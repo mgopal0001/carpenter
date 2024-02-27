@@ -33,3 +33,20 @@ export const _saveOrder = async (payload) => {
     console.log({ error });
   }
 };
+
+export const _updateOrder = async (payload, orderId) => {
+  const token = await _getToken();
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+  try {
+    const response = await axios.patch(
+      `${BASE_URL}/order/update-order/${orderId}`, payload,
+      { headers: headers }
+    );
+    return response;
+  } catch (error) {
+    console.log({ error });
+  }
+};
+
