@@ -24,10 +24,11 @@ export default function WorkDetails({ route }) {
   const renderItem = ({ item }) => {
     return (
       <View style={styles.cardItem}>
-        <View>
+        <View style={styles.imageContainer}>
           <Image
             source={{ uri: item.image }}
             style={styles.previewImage}
+            resizeMode="contain"
           ></Image>
         </View>
         <View style={styles.itemDetails}>
@@ -78,6 +79,7 @@ export default function WorkDetails({ route }) {
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.itemId} // Use a unique key for each item
+
       />
       <TouchableOpacity
         onPress={() => {
@@ -119,7 +121,6 @@ const styles = StyleSheet.create({
   header: {
     display: "flex",
     justifyContent: "space-between",
-    border: "1px slolid red",
   },
   orderDetails: {
     backgroundColor: "gray",
@@ -132,18 +133,28 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
+  imageContainer:{
+    width:"50%",
+    height:"100%",
+  },
   previewImage: {
-    width: "50%",
-    height: "60%",
+    width: "100%",
+    height: "100%",
+    
   },
   itemDetails: {
     width: "50%",
   },
   cardItem: {
-    borderColor: "red",
+    
+    marginTop:10,
     backgroundColor: "gray",
     borderRadius: 20,
-    height: "100%",
+    // height: "100%",
     padding: 20,
+    justifyContent: "space-between", // Add this line
+    flexDirection: "row",
+    gap:20
+    
   },
 });
