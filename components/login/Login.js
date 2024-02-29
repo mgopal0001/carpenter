@@ -18,7 +18,7 @@ export default function Login({ navigation }) {
   };
   const handleLogin = () => {
     //Perform login logic here and if successful navigate to home screen
-
+    console.log("here");
     _employeeLogin({ email, password })
       .then((res) => {
         const token = res.data.token;
